@@ -10,15 +10,13 @@ namespace ConsoleApp3
 {
     public static class Global
     {
-        public static IDictionary<string, string> studentInfo = new Dictionary<string, string>();
+        public static IDictionary<string, int> studentInfo = new Dictionary<string, int>(); // global variable for dictionary
     }
 
     class Program
     {
         public static void addStudent()
         {
-            
-            String[] gradeParameters = { "A", "B", "C", "D", "F" }; // the input will be checked against this list, if it does not contain any of the strings in this array it will be rejected.
             Boolean done = false;
 
             if (Global.studentInfo.Count < 5) // loop will not run if there's already 5 entries 
@@ -30,16 +28,16 @@ namespace ConsoleApp3
 
                     while (!done)
                     {
-                        Console.WriteLine("Please enter the grade of the student from (A - F)");
-                        String rGrade = Console.ReadLine();
+                        Console.WriteLine("Please enter the grade of the student from (0 - 100)");
+                        int rGrade = int.Parse(Console.ReadLine());
 
-                        if (gradeParameters.Any(rGrade.Contains)) // checks if input is in range of A - F, otherwise will reject input and loop again 
+                        if ((rGrade >=0) && (rGrade <=100)) // checks if input is in range of 0 - 100, otherwise will reject input and loop again 
                         {
                             Global.studentInfo.Add(rName, rGrade); // both key and grade inserted after all checks are done. 
                             done = true;
                         }
                         else
-                            Console.WriteLine("Invalid input, please try again"); // if input is not in the grade parameter it is rejected.
+                            Console.WriteLine("Invalid input, please try again")
                     }
 
                     Console.WriteLine("Continue entering grades? Y/N"); // repeats loop
@@ -55,36 +53,36 @@ namespace ConsoleApp3
                 }
             }
             else
-            Console.WriteLine("All spaces have been occupied, no more names can be inserted.");
+                Console.WriteLine("All spaces have been occupied, no more names can be inserted.");
 
         }
 
         static void printStudent()
         {
-            foreach(KeyValuePair<string,string> kvp in Global.studentInfo) // foreach prints all grades
+            foreach (KeyValuePair<string, int> kvp in Global.studentInfo) // foreach prints all grades
             {
-                Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+                Console.WriteLine("Student Name: {0}, Grade: {1}", kvp.Key, kvp.Value);
             }
         }
 
         static void minStudent()
         {
-            String minKey = Global.studentInfo.OrderByDescending(x => x.Value).First().Key; 
-            Console.WriteLine("The student with the lowest grade is: " + minKey + " with a grade of " + Global.studentInfo[minKey]);
+            String minKey = Global.studentInfo.OrderByDescending(x => x.Value).Last().Key; // All key/grade sorted in descending order to find minimum
+            Console.WriteLine("The student with the minimum grade is: " + minKey + " with a grade of " + Global.studentInfo[minKey]);
         }
         static void maxStudent()
         {
-            String maxKey = Global.studentInfo.OrderByDescending(x => x.Value).Last().Key;
-            Console.WriteLine("The student with the highest grade is: " + maxKey + " with a grade of " + Global.studentInfo[maxKey]);
+            String maxKey = Global.studentInfo.OrderByDescending(x => x.Value).First().Key;
+            Console.WriteLine("The student with the maximum grade is: " + maxKey + " with a grade of " + Global.studentInfo[maxKey]);
         }
 
         static void Main(string[] args)
         {
-         
+
             Boolean mDone = false;
 
             int rOption = 0;
-         
+
             while (!mDone)
             {
                 Console.WriteLine("Welcome to the student gradebook program, please select the options below."); // options
@@ -96,7 +94,7 @@ namespace ConsoleApp3
 
                 rOption = int.Parse(Console.ReadLine());
 
-                switch (rOption) 
+                switch (rOption)
                 {
                     case 1:
                         addStudent();
@@ -106,9 +104,11 @@ namespace ConsoleApp3
                         mDone = true;
                         break;
                     case 3:
-                        if (Global.studentInfo.Count > 0) // if-else statement checks if dictionary is empty
+                        if (Global.studentInfo.Count > 0) // if-else statement checks if dictionary is empty, max and min also printed
                         {
                             printStudent();
+                            maxStudent();
+                            minStudent();
                         }
                         else
                             Console.WriteLine("Function cannot be run, since there are no names inputted.");
@@ -116,7 +116,7 @@ namespace ConsoleApp3
                     case 4:
                         if (Global.studentInfo.Count > 0)
                         {
-                            maxStudent(); 
+                            maxStudent();
                         }
                         else
                             Console.WriteLine("Function cannot be run, since there are no names inputted.");
