@@ -31,13 +31,13 @@ namespace ConsoleApp3
                         Console.WriteLine("Please enter the grade of the student from (0 - 100)");
                         int rGrade = int.Parse(Console.ReadLine());
 
-                        if ((rGrade >=0) && (rGrade <=100)) // checks if input is in range of 0 - 100, otherwise will reject input and loop again 
+                        if ((rGrade >= 0) && (rGrade <= 100)) // checks if input is in range of 0 - 100, otherwise will reject input and loop again 
                         {
                             Global.studentInfo.Add(rName, rGrade); // both key and grade inserted after all checks are done. 
                             done = true;
                         }
                         else
-                            Console.WriteLine("Invalid input, please try again")
+                            Console.WriteLine("Invalid input, please try again");
                     }
 
                     Console.WriteLine("Continue entering grades? Y/N"); // repeats loop
